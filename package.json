@@ -65,8 +65,8 @@
       "extends": [
          "@dhruwlalan"
       ],
-      "env":{
+      "env": {
          "jest": true
-       }
+      }
    }
 }
