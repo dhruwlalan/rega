@@ -1,5 +1,5 @@
 import test from 'ava';
-import { createActions } from '../src/createActions';
+import { createActions } from '../createActions';
 import R from 'ramda';
 
 test('should throw an error. if: not passed a valid actions object', (t) => {

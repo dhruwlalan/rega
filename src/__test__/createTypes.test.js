@@ -1,16 +1,19 @@
-import { createTypes } from '../src/createTypes';
+import { createTypes } from '../createTypes';
 import R from 'ramda';
 
 describe('createTypes', () => {
-   describe('actions object', () => {
-      describe('when passed an invalid action object to createTypes()', () => {
+   describe('arguments', () => {
+      describe('when passed invalid arguments', () => {
          it('should throw an error', () => {
             expect(() => createTypes()).toThrow();
             expect(() => createTypes('one')).toThrow();
             expect(() => createTypes({})).toThrow();
+            expect(() => createTypes([])).toThrow();
+            expect(() => createTypes({}, '')).toThrow();
+            expect(() => createTypes({}, 'baz')).toThrow();
          });
       });
-      describe('when passed a valid action object to createTypes()', () => {
+      describe('when passed valid arguments', () => {
          it('should not throw an error', () => {
             expect(() => createTypes({ fetchSomething: () => null })).not.toThrow();
          });

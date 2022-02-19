@@ -12,6 +12,7 @@
    ],
    "scripts": {
       "test": "jest",
+      "test:watch": "jest --watch",
       "build": "rollup -c",
       "prepublishOnly": "npm run build",
       "semantic-release": "semantic-release"
