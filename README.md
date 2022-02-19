@@ -1,4 +1,4 @@
-# reduck
+# re-ga
 
 Changelog
 ---------

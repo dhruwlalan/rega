@@ -1,96 +1,237 @@
-import test from 'ava';
 import { createActions } from '../createActions';
 import R from 'ramda';
 
-test('should throw an error. if: not passed a valid actions object', (t) => {
-   t.throws(() => createActions());
-   t.throws(() => createActions('one'));
-   t.throws(() => createActions({}));
-   t.throws(() => createActions({ fetchSomething: () => true }));
+describe('createActions', () => {
+   describe('checking arguments', () => {
+      describe('when passed invalid arguments', () => {
+         it('should throw an error', () => {
+            expect(() => createActions()).toThrow();
+            expect(() => createActions('one')).toThrow();
+            expect(() => createActions({})).toThrow();
+            expect(() => createActions([])).toThrow();
+            expect(() => createActions({}, '')).toThrow();
+            expect(() => createActions({}, 'baz')).toThrow();
+         });
+      });
+      describe('when passed valid arguments', () => {
+         it('should not throw an error', () => {
+            expect(() => createActions({ fetchSomething: { arguments: ['foo'] } })).not.toThrow();
+         });
+      });
+   });
 
-   t.notThrows(() => createActions({ fetchSomething: { arguments: ['foo'] } }));
-});
+   const actions = createActions({
+      fetchSomething: { arguments: [] },
+      fetchSomethingDone: { arguments: ['foo', 'bar'] },
+   });
 
-const actions = createActions({
-   fetchSomething: { arguments: [] },
-   fetchSomethingDone: { arguments: ['foo', 'bar'] },
-});
+   describe('checking the actions object', () => {
+      it('should have correct action names', () => {
+         const keys = R.keys(actions);
+         expect(keys.includes('fetchSomething')).toBe(true);
+         expect(keys.includes('fetchSomethingDone')).toBe(true);
+         expect(keys.includes('unknownAction')).toBe(false);
+      });
+      it('should have correct action values', () => {
+         expect(typeof actions.fetchSomething).toBe('function');
+         expect(typeof actions.fetchSomethingDone).toBe('function');
+         expect(typeof actions.unknownAction).toBe('undefined');
+      });
+   });
 
-test('creates an object with the correct action names', (t) => {
-   const keys = R.keys(actions);
-   t.true(keys.includes('fetchSomething'));
-   t.true(keys.includes('fetchSomethingDone'));
-   t.false(keys.includes('unknownAction'));
-});
+   describe('checking the expectedArguments key', () => {
+      describe('when not present', () => {
+         it('should throw an error', () => {
+            expect(() => createActions({ fetchSomething: {} })).toThrowError({
+               message: 'action [fetchSomething] must contain an arguments key!',
+            });
+         });
+      });
+      describe('when present', () => {
+         it('should not throw an error', () => {
+            expect(() => createActions({ fetchSomething: { arguments: [] } })).not.toThrow();
+         });
+      });
+   });
 
-test('creates an object with the correct action values', (t) => {
-   t.is(typeof actions.fetchSomething, 'function');
-   t.is(typeof actions.fetchSomethingDone, 'function');
-   t.is(typeof actions.unknownAction, 'undefined');
-});
+   describe('checking the expectedArguments value', () => {
+      describe('when it is not an array', () => {
+         it('should throw an error', () => {
+            expect(() => createActions({ fetchSomething: { arguments: null } })).toThrowError({
+               message: 'action [fetchSomething].arguments must be an array!',
+            });
+            expect(() => createActions({ fetchSomething: { arguments: true } })).toThrowError({
+               message: 'action [fetchSomething].arguments must be an array!',
+            });
+            expect(() => createActions({ fetchSomething: { arguments: {} } })).toThrowError({
+               message: 'action [fetchSomething].arguments must be an array!',
+            });
+         });
+      });
+      describe('when it is an array', () => {
+         describe('when it is empty', () => {
+            it('should not throw an error', () => {
+               expect(() => createActions({ fetchSomething: { arguments: [] } })).not.toThrow();
+            });
+         });
+         describe('when it contains values of different types', () => {
+            it('should throw an error', () => {
+               expect(() => createActions({ fetchSomething: { arguments: [3] } })).toThrowError({
+                  message: 'action [fetchSomething].arguments must be an array of strings!',
+               });
+               expect(() => createActions({ fetchSomething: { arguments: [true] } })).toThrowError({
+                  message: 'action [fetchSomething].arguments must be an array of strings!',
+               });
+               expect(() =>
+                  createActions({ fetchSomething: { arguments: [{ foo: 'bar' }] } }),
+               ).toThrowError({
+                  message: 'action [fetchSomething].arguments must be an array of strings!',
+               });
+            });
+         });
+         describe('when it contains any empty string', () => {
+            it('should throw an error', () => {
+               expect(() => createActions({ fetchSomething: { arguments: [''] } })).toThrowError({
+                  message:
+                     'action [fetchSomething].arguments array should not contain empty strings',
+               });
+               expect(() =>
+                  createActions({ fetchSomething: { arguments: ['a', '', 'b'] } }),
+               ).toThrowError({
+                  message:
+                     'action [fetchSomething].arguments array should not contain empty strings',
+               });
+            });
+         });
+         describe('when all the values are non-empty strings', () => {
+            it('should not throw an error', () => {
+               expect(() => createActions({ fetchSomething: { arguments: ['a'] } })).not.toThrow();
+               expect(() =>
+                  createActions({ fetchSomething: { arguments: ['a', 'foo'] } }),
+               ).not.toThrow();
+            });
+         });
+      });
+   });
 
-// testing [action].arguments is present or not
-test('should throw an error. if: the action object does not contain arguments key', (t) => {
-   t.throws(() => createActions({ fetchSomething: {} }), {
-      message: 'action [fetchSomething] must contain an arguments key!',
+   describe('when expectedArguments is an empty array', () => {
+      describe('when providedArguments is also empty', () => {
+         it('should create an action with just the type property', () => {
+            expect(actions.fetchSomething()).toStrictEqual({ type: 'FETCH_SOMETHING' });
+         });
+         it('should not throw an error', () => {
+            expect(() => actions.fetchSomething()).not.toThrow();
+         });
+      });
+      describe('when providedArguments is not empty', () => {
+         it('should throw an error', () => {
+            expect(() => actions.fetchSomething({})).toThrow({
+               message:
+                  'action [fetchSomething] expects no arguments, but recieved some arguments!',
+            });
+            expect(() => actions.fetchSomething({}, 'a')).toThrow({
+               message:
+                  'action [fetchSomething] expects no arguments, but recieved some arguments!',
+            });
+            expect(() => actions.fetchSomething('foo')).toThrow({
+               message:
+                  'action [fetchSomething] expects no arguments, but recieved some arguments!',
+            });
+            expect(() => actions.fetchSomething(null)).toThrow({
+               message:
+                  'action [fetchSomething] expects no arguments, but recieved some arguments!',
+            });
+            expect(() => actions.fetchSomething(undefined)).toThrow({
+               message:
+                  'action [fetchSomething] expects no arguments, but recieved some arguments!',
+            });
+         });
+      });
    });
-});
-test('should not throw an error. if: the action object contains arguments key', (t) => {
-   t.notThrows(() => createActions({ fetchSomething: { arguments: [] } }));
-});
 
-// testing [action].arguments value to be always an array
-test('should throw an error. if: the expectedArguments is not an array', (t) => {
-   t.throws(() => createActions({ fetchSomething: { arguments: null } }), {
-      message: 'action [fetchSomething].arguments must be an array!',
+   describe('when there are some expectedArguments', () => {
+      describe('when providedArguments is empty', () => {
+         it('should throw an error', () => {
+            expect(() => actions.fetchSomethingDone()).toThrow({
+               message: 'action [fetchSomethingDone] expects some arguments, but passed none!',
+            });
+         });
+      });
+      describe('when there are also some providedArguments', () => {
+         it('should throw an error if there are more than 1 providedArguments', () => {
+            expect(() => actions.fetchSomethingDone('', '')).toThrow({
+               message:
+                  'action [fetchSomethingDone] expects only a single argument, but passed more than one!',
+            });
+         });
+      });
+      describe('when there is only one providedArgument', () => {
+         it('should throw an error if providedArgument is not an object', () => {
+            expect(() => actions.fetchSomethingDone('')).toThrow({
+               message:
+                  'action [fetchSomethingDone] expects an argument of type object, but passed a diffirent type!',
+            });
+            expect(() => actions.fetchSomethingDone(null)).toThrow({
+               message:
+                  'action [fetchSomethingDone] expects an argument of type object, but passed a diffirent type!',
+            });
+            expect(() => actions.fetchSomethingDone(undefined)).toThrow({
+               message:
+                  'action [fetchSomethingDone] expects an argument of type object, but passed a diffirent type!',
+            });
+         });
+         it('should throw an error if the providedArgument is missing some keys', () => {
+            expect(() => actions.fetchSomethingDone({})).toThrow({
+               message: 'action [fetchSomethingDone] didnt recieved these args: foo,bar',
+            });
+            expect(() => actions.fetchSomethingDone({ foo: 29 })).toThrow({
+               message: 'action [fetchSomethingDone] didnt recieved these args: bar',
+            });
+            expect(() => actions.fetchSomethingDone({ foo: 29, boo: 'hii', zoo: true })).toThrow({
+               message: 'action [fetchSomethingDone] didnt recieved these args: bar',
+            });
+         });
+         it('should throw an error if the providedArgument is passing extra keys', () => {
+            expect(() => actions.fetchSomethingDone({ foo: 'Foo', bar: 2, zoo: true })).toThrow({
+               message: 'action [fetchSomethingDone] recieved with extra agrs: zoo',
+            });
+            expect(() =>
+               actions.fetchSomethingDone({ foo: 'Foo', bar: true, zoo: true, loo: {} }),
+            ).toThrow({
+               message: 'action [fetchSomethingDone] recieved with extra agrs: zoo,loo',
+            });
+         });
+      });
    });
-   t.throws(() => createActions({ fetchSomething: { arguments: true } }), {
-      message: 'action [fetchSomething].arguments must be an array!',
-   });
-   t.throws(() => createActions({ fetchSomething: { arguments: {} } }), {
-      message: 'action [fetchSomething].arguments must be an array!',
-   });
-});
-test('should not throw an error, if: the expectedArguments is an array', (t) => {
-   t.notThrows(() => createActions({ fetchSomething: { arguments: [] } }));
-});
-test('should not throw an error, if: the expectedArguments is an empty array', (t) => {
-   t.notThrows(() => createActions({ fetchSomething: { arguments: [] } }));
-});
 
-// testing [action].arguments value to be an array of non-emtpy strings
-test('should throw an error, if: the expectedArguments is not an array of strings', (t) => {
-   t.throws(() => createActions({ fetchSomething: { arguments: [3] } }), {
-      message: 'action [fetchSomething].arguments must be an array of strings!',
+   describe('when the providedArgument equals expectedArguments', () => {
+      it('should not throw an error', () => {
+         expect(() => actions.fetchSomethingDone({ foo: 'yes', bar: true })).not.toThrow();
+      });
+      it('should return the correct action object', () => {
+         expect(actions.fetchSomething()).toStrictEqual({ type: 'FETCH_SOMETHING' });
+         expect(actions.fetchSomethingDone({ foo: 'yes', bar: true })).toStrictEqual({
+            type: 'FETCH_SOMETHING_DONE',
+            foo: 'yes',
+            bar: true,
+         });
+         expect(actions.fetchSomethingDone({ foo: {}, bar: [] })).toStrictEqual({
+            type: 'FETCH_SOMETHING_DONE',
+            foo: {},
+            bar: [],
+         });
+         expect(
+            actions.fetchSomethingDone({ foo: { yes: 'YAA' }, bar: [{ is: false }] }),
+         ).toStrictEqual({
+            type: 'FETCH_SOMETHING_DONE',
+            foo: { yes: 'YAA' },
+            bar: [{ is: false }],
+         });
+         expect(actions.fetchSomethingDone({ foo: null, bar: undefined })).toStrictEqual({
+            type: 'FETCH_SOMETHING_DONE',
+            foo: null,
+            bar: undefined,
+         });
+      });
    });
-   t.throws(() => createActions({ fetchSomething: { arguments: [true] } }), {
-      message: 'action [fetchSomething].arguments must be an array of strings!',
-   });
-   t.throws(() => createActions({ fetchSomething: { arguments: [{ foo: 'bar' }] } }), {
-      message: 'action [fetchSomething].arguments must be an array of strings!',
-   });
-});
-test('should not throw an error, if: the expectedArguments is an array of strings', (t) => {
-   t.notThrows(() => createActions({ fetchSomething: { arguments: ['a'] } }));
-   t.notThrows(() => createActions({ fetchSomething: { arguments: ['a', 'foo'] } }));
-});
-test('should throw an error, if: the expectedArguments array contains empty strings', (t) => {
-   t.throws(() => createActions({ fetchSomething: { arguments: [''] } }), {
-      message: 'action [fetchSomething].arguments array should not contain empty strings',
-   });
-   t.throws(() => createActions({ fetchSomething: { arguments: ['a', '', 'b'] } }), {
-      message: 'action [fetchSomething].arguments array should not contain empty strings',
-   });
-});
-test('should not throw an error, if: the expectedArguments array does not contains empty strings', (t) => {
-   t.notThrows(() => createActions({ fetchSomething: { arguments: ['a'] } }));
-   t.notThrows(() => createActions({ fetchSomething: { arguments: ['a', 'foo', 'b'] } }));
-});
-
-// testing when expectedArguments is []
-test('should not throw an error, if: the expectedArguments array is empty & providedArguments is also empty', (t) => {
-   t.notThrows(() => actions.fetchSomething());
-});
-test('creates correct action object, when: expectedArguments is empty & providedArguments is also empty', (t) => {
-   t.deepEqual(actions.fetchSomething(), { type: 'FETCH_SOMETHING' });
 });

@@ -1,17 +1,22 @@
-import test from 'ava';
-import { snakeCaseToCamelCase, camelCaseToSnakeCase, capitalize } from '../src/utils';
+import { snakeCaseToCamelCase, camelCaseToSnakeCase, capitalize } from '../utils';
 
-test('converts screeming snake case to camel case', (t) => {
-   const str = 'SCREEMING_SNAKE_CASE_STRING';
-   t.is(snakeCaseToCamelCase(str), 'screemingSnakeCaseString');
+describe('snakeCaseToCamelCase', () => {
+   it('converts screeming snake case to camel case', () => {
+      const str = 'SCREEMING_SNAKE_CASE_STRING';
+      expect(snakeCaseToCamelCase(str)).toBe('screemingSnakeCaseString');
+   });
 });
 
-test('converts camel case to screeming snake case', (t) => {
-   const str = 'screemingSnakeCaseString';
-   t.is(camelCaseToSnakeCase(str), 'SCREEMING_SNAKE_CASE_STRING');
+describe('camelCaseToSnakeCase', () => {
+   test('converts camel case to screeming snake case', () => {
+      const str = 'screemingSnakeCaseString';
+      expect(camelCaseToSnakeCase(str)).toBe('SCREEMING_SNAKE_CASE_STRING');
+   });
 });
 
-test('capitlize first letter of string', (t) => {
-   const str = 'helloWorld';
-   t.is(capitalize(str), 'HelloWorld');
+describe('capitalize', () => {
+   test('capitlize first letter of string', () => {
+      const str = 'helloWorld';
+      expect(capitalize(str)).toBe('HelloWorld');
+   });
 });

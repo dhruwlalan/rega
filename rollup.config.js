@@ -3,7 +3,7 @@ import ramda from 'rollup-plugin-ramda';
 import filesize from 'rollup-plugin-filesize';
 
 export default {
-   input: 'src/reduck.js',
+   input: 'src/rega.js',
    plugins: [
       babel({
          babelHelpers: 'bundled',
@@ -15,7 +15,7 @@ export default {
    ],
    external: ['ramda', 'reselect', 'seamless-immutable'],
    output: {
-      file: 'dist/reduck.js',
+      file: 'dist/rega.js',
       format: 'cjs',
    },
 };

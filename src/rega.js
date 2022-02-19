@@ -6,7 +6,7 @@ import { createActions } from './createActions';
 import { createReducer } from './createReducer';
 import { capitalize } from './utils';
 
-export const reduck = ({ name, initialState, actions }) => {
+export const rega = ({ name, initialState, actions }) => {
    if (R.isNil(name)) throw new Error('name is required');
    if (R.isEmpty(name)) throw new Error('name is required');
    if (!R.is(String, name)) throw new Error('name must be a valid string');
