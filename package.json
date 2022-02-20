@@ -13,7 +13,7 @@
    "scripts": {
       "test": "jest",
       "test:watch": "jest --watch",
-      "build": "esbuild src/rega.js --bundle --outdir=dist --external:seamless-immutable --external:reselect --external:redux-saga --external:ramda --platform=node --target=node14.18.0 --format=cjs",
+      "build": "rollup -c",
       "prepublishOnly": "npm run build",
       "semantic-release": "semantic-release"
    },
@@ -30,10 +30,13 @@
       "@babel/register": "^7.17.0",
       "@dhruwlalan/eslint-config": "^1.0.6",
       "@dhruwlalan/semantic-release-config": "^2.0.0",
-      "esbuild": "^0.14.23",
+      "@rollup/plugin-babel": "^5.3.0",
       "eslint": "^8.9.0",
       "jest": "^27.5.1",
       "prettier": "^2.5.1",
+      "rollup": "^2.67.3",
+      "rollup-plugin-filesize": "^9.1.2",
+      "rollup-plugin-ramda": "^1.0.5",
       "semantic-release": "^19.0.2"
    },
    "peerDependencies": {
