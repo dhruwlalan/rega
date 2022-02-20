@@ -4,6 +4,7 @@ import { createSelectors } from './createSelectors';
 import { createTypes } from './createTypes';
 import { createActions } from './createActions';
 import { createReducer } from './createReducer';
+import { createSaga } from './createSaga';
 import { capitalize } from './utils';
 
 export const rega = ({ name, initialState, actions }) => {
@@ -27,5 +28,6 @@ export const rega = ({ name, initialState, actions }) => {
       [`${reducerName}Selectors`]: createSelectors(INITIAL_STATE, name),
       [`${reducerName}Actions`]: createActions(actions),
       [`${reducerName}Reducer`]: createReducer(INITIAL_STATE, actions),
+      [`${reducerName}Saga`]: createSaga(actions),
    };
 };
