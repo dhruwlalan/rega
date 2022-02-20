@@ -1,5 +1,4 @@
-import R from 'ramda';
-import { camelCaseToSnakeCase, snakeCaseToCamelCase } from './utils';
+import { R, camelCaseToSnakeCase, snakeCaseToCamelCase } from './utils';
 
 const checkInitialStateAndActionsObject = (initialState, actions) => {
    if (R.isNil(initialState)) throw new Error('initial state is required');

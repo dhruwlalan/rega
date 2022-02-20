@@ -1,11 +1,10 @@
 import Immutable from 'seamless-immutable';
-import R from 'ramda';
 import { createSelectors } from './createSelectors';
 import { createTypes } from './createTypes';
 import { createActions } from './createActions';
 import { createReducer } from './createReducer';
 import { createSaga } from './createSaga';
-import { capitalize } from './utils';
+import { R, capitalize } from './utils';
 
 export const rega = ({ name, initialState, actions }) => {
    if (R.isNil(name)) throw new Error('name is required');
