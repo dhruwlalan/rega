@@ -73,7 +73,6 @@ describe('rega', () => {
    const SomeTypesKeys = R.keys(SomeTypes);
    const SomeTypesValues = R.values(SomeTypes);
    const SomeActionsKeys = R.keys(SomeActions);
-   const SomeSagaKeys = R.keys(SomeSaga);
    const InitialState = Immutable({
       something: null,
       isFetching: false,
@@ -221,20 +220,16 @@ describe('rega', () => {
    });
 
    describe('checking saga', () => {
-      it('should contain the names of all the sagas present in the action object', () => {
-         expect(SomeSagaKeys.includes('FETCH_SOMETHING')).toBe(true);
-      });
-
-      it('should not contain the names of any variable not present in the initial state', () => {
-         expect(SomeSagaKeys.includes('FETCH_SOMETHING_DONE')).toBe(false);
+      it('should contain the exact no of saga functions', () => {
+         expect(SomeSaga.length).toBe(1);
       });
 
       it('should create the saga functions of all the sagas present in the action object', () => {
-         expect(typeof SomeSaga.FETCH_SOMETHING).toBe('function');
+         expect(typeof SomeSaga[0]).toBe('function');
       });
 
       it('should create the saga functions with correct names of all the sagas present in the action object', () => {
-         expect(SomeSaga.FETCH_SOMETHING.name).toBe('fetchSomethingWatcher');
+         expect(SomeSaga[0].name).toBe('fetchSomethingWatcher');
       });
    });
 });
