@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/dhruwlalan/rega/compare/v1.1.1...v1.1.2) (2022-02-20)
+
+
+### Bug Fixes
+
+* **reducer:** reducer can be passed with less than or equal to the expected arguments ([726a548](https://github.com/dhruwlalan/rega/commit/726a548d9429297b5cea6db83d50c649f2fc4ff0))
+
 ## [1.1.1](https://github.com/dhruwlalan/rega/compare/v1.1.0...v1.1.1) (2022-02-20)
 
 # [1.1.0](https://github.com/dhruwlalan/rega/compare/v1.0.0...v1.1.0) (2022-02-20)
