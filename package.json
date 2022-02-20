@@ -13,7 +13,7 @@
    "scripts": {
       "test": "jest",
       "test:watch": "jest --watch",
-      "build": "esbuild src/rega.js --bundle --outdir=dist --platform=node --external:ramda --external:redux-saga --external:reselect --external:seamless-immutable --target=node14.18.0 --format=cjs --tree-shaking=true --minify",
+      "build": "esbuild src/rega.js --bundle --outdir=dist --platform=node --external:./node_modules/* --target=node14.18.0 --format=cjs --tree-shaking=true --minify",
       "prepublishOnly": "npm run build",
       "semantic-release": "semantic-release"
    },
