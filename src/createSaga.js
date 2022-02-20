@@ -1,6 +1,5 @@
-import R from 'ramda';
 import { takeLatest } from 'redux-saga/effects';
-import { camelCaseToSnakeCase } from './utils';
+import { R, camelCaseToSnakeCase } from './utils';
 
 export const createSaga = (actions) => {
    if (R.isNil(actions)) throw new Error('actions object cannot be empty');

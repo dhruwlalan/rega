@@ -1,5 +1,4 @@
-import R from 'ramda';
-import { camelCaseToSnakeCase } from './utils';
+import { R, camelCaseToSnakeCase } from './utils';
 
 const checkActionsObject = (actions) => {
    if (R.isNil(actions)) throw new Error('actions object cannot be empty');

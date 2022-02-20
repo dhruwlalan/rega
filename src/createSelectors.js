@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import R from 'ramda';
+import { R } from './utils';
 
 export const createSelectors = (initialState, reducerName) => {
    if (R.isNil(initialState)) throw new Error('initialState cannot be empty');
