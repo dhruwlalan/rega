@@ -29,7 +29,7 @@ const checkProvidedArguments = (name, providedArguments, expectedArguments) => {
    }
 };
 
-export const createReducer = (initialState, actions) => {
+export const createReducer = (initialState, actions, name) => {
    checkInitialStateAndActionsObject(initialState, actions);
 
    const reducers = extractAllReducers(actions);
@@ -48,6 +48,8 @@ export const createReducer = (initialState, actions) => {
       ]),
       R.fromPairs,
    )(reducers);
+
+   handlers[`RESET_${camelCaseToSnakeCase(name)}`] = () => initialState;
 
    return (state = initialState, action = null) => {
       if (R.isNil(action)) return state;

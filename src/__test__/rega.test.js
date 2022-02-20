@@ -127,6 +127,17 @@ describe('rega', () => {
             expect(typeof SomeActions.unknownAction).toBe('undefined');
          });
       });
+      describe('checking the builtin action object', () => {
+         it('should have the correct action names', () => {
+            expect(SomeActionsKeys.includes('reset')).toBe(true);
+         });
+         it('should have correct action values', () => {
+            expect(typeof SomeActions.reset).toBe('function');
+         });
+         it('should return the correct action object', () => {
+            expect(SomeActions.reset()).toEqual({ type: 'RESET_SOME' });
+         });
+      });
       describe('checking payload', () => {
          describe('when payload is valid', () => {
             it('should create correct action objects', () => {
@@ -215,6 +226,13 @@ describe('rega', () => {
                isFetching: false,
                isFetchingDone: true,
             });
+         });
+      });
+
+      describe('when actions are builtin', () => {
+         it('should return the correct next state', () => {
+            const nextState = SomeReducer(InitialState, SomeActions.reset());
+            expect(nextState).toMatchObject(InitialState);
          });
       });
    });

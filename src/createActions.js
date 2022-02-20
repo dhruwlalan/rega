@@ -1,8 +1,16 @@
 import { R, camelCaseToSnakeCase } from './utils';
 
-const checkActionsObject = (actions) => {
-   if (R.isNil(actions)) throw new Error('actions object cannot be empty');
-   if (R.isEmpty(actions)) throw new Error('actions object cannot be empty');
+const checkArguments = (name, initialState, actions) => {
+   if (R.isNil(name)) throw new Error('name is required');
+   if (R.isEmpty(name)) throw new Error('name is required');
+   if (!R.is(String, name)) throw new Error('name must be a valid string');
+
+   if (R.isNil(initialState)) throw new Error('initialState is required');
+   if (R.isEmpty(initialState)) throw new Error('initialState is required');
+   if (!R.is(Object, initialState)) throw new Error('initialState must be a valid object');
+
+   if (R.isNil(actions)) throw new Error('actions is required');
+   if (R.isEmpty(actions)) throw new Error('actions is required');
    if (!R.is(Object, actions)) throw new Error('actions must be a valid object');
 };
 
@@ -66,11 +74,11 @@ const checkProvidedArguments = (name, providedArguments, expectedArguments) => {
    }
 };
 
-export const createActions = (actions) => {
+export const createActions = (name, initialState, actions) => {
    // actions should always be an object
-   checkActionsObject(actions);
+   checkArguments(name, initialState, actions);
 
-   return R.mapObjIndexed((_, name) => {
+   const actionCreators = R.mapObjIndexed((_, name) => {
       const type = camelCaseToSnakeCase(name);
       const action = actions[name];
 
@@ -95,4 +103,10 @@ export const createActions = (actions) => {
 
       return actionCreatorFunction;
    })(actions);
+
+   actionCreators.reset = () => ({
+      type: `RESET_${camelCaseToSnakeCase(name)}`,
+   });
+
+   return actionCreators;
 };
