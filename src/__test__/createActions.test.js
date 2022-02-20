@@ -15,12 +15,20 @@ describe('createActions', () => {
       });
       describe('when passed valid arguments', () => {
          it('should not throw an error', () => {
-            expect(() => createActions({ fetchSomething: { arguments: ['foo'] } })).not.toThrow();
+            expect(() =>
+               createActions(
+                  'something',
+                  { foo: 'FOO' },
+                  { fetchSomething: { arguments: ['foo'] } },
+               ),
+            ).not.toThrow();
          });
       });
    });
 
-   const actions = createActions({
+   const name = 'something';
+   const initialState = { foo: 'FOO' };
+   const actions = createActions(name, initialState, {
       fetchSomething: { arguments: [] },
       fetchSomethingDone: { arguments: ['foo', 'bar'] },
    });
@@ -39,17 +47,32 @@ describe('createActions', () => {
       });
    });
 
+   describe('checking the reset action', () => {
+      const keys = R.keys(actions);
+      it('should contain the reset action', () => {
+         expect(keys.includes('reset')).toBe(true);
+      });
+      it('should have the correct reset acion value', () => {
+         expect(typeof actions.reset).toBe('function');
+      });
+      it('should return the correct reset acion object', () => {
+         expect(actions.reset()).toStrictEqual({ type: 'RESET_SOMETHING' });
+      });
+   });
+
    describe('checking the expectedArguments key', () => {
       describe('when not present', () => {
          it('should throw an error', () => {
-            expect(() => createActions({ fetchSomething: {} })).toThrowError({
+            expect(() => createActions(name, initialState, { fetchSomething: {} })).toThrowError({
                message: 'action [fetchSomething] must contain an arguments key!',
             });
          });
       });
       describe('when present', () => {
          it('should not throw an error', () => {
-            expect(() => createActions({ fetchSomething: { arguments: [] } })).not.toThrow();
+            expect(() =>
+               createActions(name, initialState, { fetchSomething: { arguments: [] } }),
+            ).not.toThrow();
          });
       });
    });
@@ -57,13 +80,19 @@ describe('createActions', () => {
    describe('checking the expectedArguments value', () => {
       describe('when it is not an array', () => {
          it('should throw an error', () => {
-            expect(() => createActions({ fetchSomething: { arguments: null } })).toThrowError({
+            expect(() =>
+               createActions(name, initialState, { fetchSomething: { arguments: null } }),
+            ).toThrowError({
                message: 'action [fetchSomething].arguments must be an array!',
             });
-            expect(() => createActions({ fetchSomething: { arguments: true } })).toThrowError({
+            expect(() =>
+               createActions(name, initialState, { fetchSomething: { arguments: true } }),
+            ).toThrowError({
                message: 'action [fetchSomething].arguments must be an array!',
             });
-            expect(() => createActions({ fetchSomething: { arguments: {} } })).toThrowError({
+            expect(() =>
+               createActions(name, initialState, { fetchSomething: { arguments: {} } }),
+            ).toThrowError({
                message: 'action [fetchSomething].arguments must be an array!',
             });
          });
@@ -71,19 +100,27 @@ describe('createActions', () => {
       describe('when it is an array', () => {
          describe('when it is empty', () => {
             it('should not throw an error', () => {
-               expect(() => createActions({ fetchSomething: { arguments: [] } })).not.toThrow();
+               expect(() =>
+                  createActions(name, initialState, { fetchSomething: { arguments: [] } }),
+               ).not.toThrow();
             });
          });
          describe('when it contains values of different types', () => {
             it('should throw an error', () => {
-               expect(() => createActions({ fetchSomething: { arguments: [3] } })).toThrowError({
-                  message: 'action [fetchSomething].arguments must be an array of strings!',
-               });
-               expect(() => createActions({ fetchSomething: { arguments: [true] } })).toThrowError({
+               expect(() =>
+                  createActions(name, initialState, { fetchSomething: { arguments: [3] } }),
+               ).toThrowError({
                   message: 'action [fetchSomething].arguments must be an array of strings!',
                });
                expect(() =>
-                  createActions({ fetchSomething: { arguments: [{ foo: 'bar' }] } }),
+                  createActions(name, initialState, { fetchSomething: { arguments: [true] } }),
+               ).toThrowError({
+                  message: 'action [fetchSomething].arguments must be an array of strings!',
+               });
+               expect(() =>
+                  createActions(name, initialState, {
+                     fetchSomething: { arguments: [{ foo: 'bar' }] },
+                  }),
                ).toThrowError({
                   message: 'action [fetchSomething].arguments must be an array of strings!',
                });
@@ -91,12 +128,16 @@ describe('createActions', () => {
          });
          describe('when it contains any empty string', () => {
             it('should throw an error', () => {
-               expect(() => createActions({ fetchSomething: { arguments: [''] } })).toThrowError({
+               expect(() =>
+                  createActions(name, initialState, { fetchSomething: { arguments: [''] } }),
+               ).toThrowError({
                   message:
                      'action [fetchSomething].arguments array should not contain empty strings',
                });
                expect(() =>
-                  createActions({ fetchSomething: { arguments: ['a', '', 'b'] } }),
+                  createActions(name, initialState, {
+                     fetchSomething: { arguments: ['a', '', 'b'] },
+                  }),
                ).toThrowError({
                   message:
                      'action [fetchSomething].arguments array should not contain empty strings',
@@ -105,9 +146,13 @@ describe('createActions', () => {
          });
          describe('when all the values are non-empty strings', () => {
             it('should not throw an error', () => {
-               expect(() => createActions({ fetchSomething: { arguments: ['a'] } })).not.toThrow();
                expect(() =>
-                  createActions({ fetchSomething: { arguments: ['a', 'foo'] } }),
+                  createActions(name, initialState, { fetchSomething: { arguments: ['a'] } }),
+               ).not.toThrow();
+               expect(() =>
+                  createActions(name, initialState, {
+                     fetchSomething: { arguments: ['a', 'foo'] },
+                  }),
                ).not.toThrow();
             });
          });

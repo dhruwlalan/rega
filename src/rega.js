@@ -15,9 +15,9 @@ export const rega = ({ name, initialState, actions }) => {
    if (R.isEmpty(initialState)) throw new Error('initialState is required');
    if (!R.is(Object, initialState)) throw new Error('initialState must be a valid object');
 
-   if (R.isNil(initialState)) throw new Error('actions is required');
-   if (R.isEmpty(initialState)) throw new Error('actions is required');
-   if (!R.is(Object, initialState)) throw new Error('actions must be a valid object');
+   if (R.isNil(actions)) throw new Error('actions is required');
+   if (R.isEmpty(actions)) throw new Error('actions is required');
+   if (!R.is(Object, actions)) throw new Error('actions must be a valid object');
 
    const INITIAL_STATE = Immutable(initialState);
    const reducerName = capitalize(name);
@@ -25,8 +25,8 @@ export const rega = ({ name, initialState, actions }) => {
    return {
       [`${reducerName}Types`]: createTypes(actions),
       [`${reducerName}Selectors`]: createSelectors(INITIAL_STATE, name),
-      [`${reducerName}Actions`]: createActions(actions),
-      [`${reducerName}Reducer`]: createReducer(INITIAL_STATE, actions),
+      [`${reducerName}Actions`]: createActions(name, INITIAL_STATE, actions),
+      [`${reducerName}Reducer`]: createReducer(INITIAL_STATE, actions, name),
       [`${reducerName}Saga`]: createSaga(actions),
    };
 };

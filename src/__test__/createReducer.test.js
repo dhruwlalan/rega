@@ -15,7 +15,9 @@ describe('createActions', () => {
       });
       describe('when passed valid arguments', () => {
          it('should not throw an error', () => {
-            expect(() => createReducer({ foo: 'bar' }, { fetchSomething: {} })).not.toThrow();
+            expect(() =>
+               createReducer({ foo: 'bar' }, { fetchSomething: {} }, 'some'),
+            ).not.toThrow();
          });
       });
    });
@@ -32,7 +34,7 @@ describe('createActions', () => {
          reducer: ({ foo, bar }) => ({ foo, bar }),
       },
    };
-   const reducer = createReducer(INITIAL_STATE, actions);
+   const reducer = createReducer(INITIAL_STATE, actions, 'some');
 
    describe('when actions are invalid', () => {
       describe('when actions is empty', () => {
