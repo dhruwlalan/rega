@@ -23,11 +23,6 @@ const checkProvidedArguments = (name, providedArguments, expectedArguments) => {
    const providedArgumentKeys = R.keys(providedArguments);
    const expectedArgumentKeys = expectedArguments;
 
-   const missingKeys = R.difference(expectedArgumentKeys, providedArgumentKeys);
-   if (!R.isEmpty(missingKeys)) {
-      throw new Error(`reducer [${name}] didnt recieved these args: ${missingKeys}`);
-   }
-
    const extraKeys = R.difference(providedArgumentKeys, expectedArgumentKeys);
    if (!R.isEmpty(extraKeys)) {
       throw new Error(`reducer [${name}] recieved with extra agrs: ${extraKeys}`);

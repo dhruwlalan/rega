@@ -62,25 +62,31 @@ describe('createActions', () => {
    });
 
    describe('when actions are valid', () => {
-      describe('when the payload is invalid', () => {
-         expect(() => reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING', boo: 'boo' })).toThrow({
-            message: 'reducer [fetchSomething] recieved with extra agrs: boo',
-         });
-         expect(() => reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING_DONE' })).toThrow({
-            message: 'reducer [fetchSomethingDone] didnt recieved these args: foo,bar',
-         });
-         expect(() =>
-            reducer(INITIAL_STATE, {
-               type: 'FETCH_SOMETHING_DONE',
-               foo: 'FoO',
-               bar: 4,
-               zoo: 'lol',
-            }),
-         ).toThrow({
-            message: 'reducer [fetchSomethingDone] recieved with extra agrs: zoo',
+      describe('when the payload is extra', () => {
+         it('should throw an error', () => {
+            expect(() => reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING', boo: 'boo' })).toThrow({
+               message: 'reducer [fetchSomething] recieved with extra agrs: boo',
+            });
+            expect(() =>
+               reducer(INITIAL_STATE, {
+                  type: 'FETCH_SOMETHING_DONE',
+                  foo: 'FoO',
+                  bar: 4,
+                  zoo: 'lol',
+               }),
+            ).toThrow({
+               message: 'reducer [fetchSomethingDone] recieved with extra agrs: zoo',
+            });
          });
       });
-      describe('when the payload is valid', () => {
+      describe('when the payload is less than or equal to expected', () => {
+         it('should not throw an error', () => {
+            expect(() => reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING' })).not.toThrow();
+            expect(() => reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING_DONE' })).not.toThrow();
+            expect(() =>
+               reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING_DONE', foo: 'yes' }),
+            ).not.toThrow();
+         });
          it('should return the correct next state', () => {
             const nextState = reducer(INITIAL_STATE, {
                type: 'FETCH_SOMETHING_DONE',
