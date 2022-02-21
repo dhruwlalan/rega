@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.3.0](https://github.com/dhruwlalan/rega/compare/v1.2.2...v1.3.0) (2022-02-21)
+
+
+### Features
+
+* **actions:** add buil-in setter actions for initial state keys ([62c7288](https://github.com/dhruwlalan/rega/commit/62c72883d31ca8cdc5f614c26d560834b0bbd513))
+* **actions:** add built-in reset action ([178b7ff](https://github.com/dhruwlalan/rega/commit/178b7ff380b0078af5dfeecd36ced70a8c026fe5))
+
 ## [1.2.2](https://github.com/dhruwlalan/rega/compare/v1.2.1...v1.2.2) (2022-02-20)
 
 
