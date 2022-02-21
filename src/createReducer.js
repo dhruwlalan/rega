@@ -51,6 +51,24 @@ export const createReducer = (initialState, actions, name) => {
 
    handlers[`RESET_${camelCaseToSnakeCase(name)}`] = () => initialState;
 
+   R.mapObjIndexed((_, key) => {
+      handlers[`SET_${camelCaseToSnakeCase(name)}_${camelCaseToSnakeCase(key)}`] = (
+         state,
+         action,
+      ) => {
+         if (!R.has(key)(action)) {
+            throw new Error(
+               `reducer [${name}] passing with action [${`SET_${camelCaseToSnakeCase(
+                  name,
+               )}_${camelCaseToSnakeCase(key)}`}] should be passed with ${key}`,
+            );
+         }
+         return state.merge({
+            [key]: action[key],
+         });
+      };
+   })(initialState);
+
    return (state = initialState, action = null) => {
       if (R.isNil(action)) return state;
       if (R.isEmpty(action)) return state;

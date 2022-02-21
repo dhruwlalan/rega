@@ -177,6 +177,42 @@ describe('rega', () => {
             });
          });
       });
+      describe('checking the set state actions', () => {
+         it('should contain the set actions for initial state keys', () => {
+            expect(SomeActionsKeys.includes('setSomething')).toBe(true);
+            expect(SomeActionsKeys.includes('setIsFetching')).toBe(true);
+            expect(SomeActionsKeys.includes('setIsFetchingDone')).toBe(true);
+         });
+         it('should have the correct set action value', () => {
+            expect(typeof SomeActions.setSomething).toBe('function');
+            expect(typeof SomeActions.setIsFetching).toBe('function');
+            expect(typeof SomeActions.setIsFetchingDone).toBe('function');
+         });
+         it('should return the correct reset acion object', () => {
+            expect(SomeActions.setSomething(5)).toStrictEqual({
+               type: 'SET_SOME_SOMETHING',
+               something: 5,
+            });
+            expect(SomeActions.setIsFetching(false)).toStrictEqual({
+               type: 'SET_SOME_IS_FETCHING',
+               isFetching: false,
+            });
+            expect(SomeActions.setIsFetchingDone(['hii'])).toStrictEqual({
+               type: 'SET_SOME_IS_FETCHING_DONE',
+               isFetchingDone: ['hii'],
+            });
+         });
+         it('should throw an error if passed no arguments', () => {
+            expect(() => SomeActions.setSomething()).toThrow({
+               message: 'action [some] expects a single argument, but passed none!',
+            });
+         });
+         it('should throw an error if passed more than one arguments', () => {
+            expect(() => SomeActions.setSomething(5, 3)).toThrow({
+               message: 'action [some] expects only a single argument, but passed more!',
+            });
+         });
+      });
    });
 
    describe('checking reducer', () => {
@@ -230,9 +266,39 @@ describe('rega', () => {
       });
 
       describe('when actions are builtin', () => {
-         it('should return the correct next state', () => {
-            const nextState = SomeReducer(InitialState, SomeActions.reset());
-            expect(nextState).toMatchObject(InitialState);
+         describe('reset', () => {
+            it('should return the correct next state', () => {
+               const nextState = SomeReducer(InitialState, SomeActions.reset());
+               expect(nextState).toMatchObject(InitialState);
+            });
+         });
+         describe('setters', () => {
+            it('should return the correct next state for setSomething', () => {
+               const nextState = SomeReducer(InitialState, SomeActions.setSomething(55));
+               expect(nextState).toStrictEqual({ ...InitialState, something: 55 });
+            });
+            it('should return the correct next state for setIsFetching', () => {
+               const nextState = SomeReducer(InitialState, SomeActions.setIsFetching(false));
+               expect(nextState).toStrictEqual({ ...InitialState, isFetching: false });
+            });
+            it('should return the correct next state for setIsFetchingDone', () => {
+               const nextState = SomeReducer(InitialState, SomeActions.setIsFetchingDone(['yes']));
+               expect(nextState).toStrictEqual({ ...InitialState, isFetchingDone: ['yes'] });
+            });
+            it('should throw an error if not passed with correct state key', () => {
+               expect(() => SomeReducer(InitialState, { type: 'SET_SOME_SOMETHING' })).toThrow({
+                  message:
+                     'reducer [some] passing with action [SET_SOME_SOMETHING] should be passed with something',
+               });
+            });
+            it('should throw an error if not passed with correct state key', () => {
+               expect(() =>
+                  SomeReducer(InitialState, { type: 'SET_SOME_SOMETHING', foo: 'no' }),
+               ).toThrow({
+                  message:
+                     'reducer [some] passing with action [SET_SOME_SOMETHING] should be passed with something',
+               });
+            });
          });
       });
    });

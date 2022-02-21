@@ -97,9 +97,36 @@ describe('createActions', () => {
             });
             expect(nextState).toStrictEqual({ foo: 77, bar: 88 });
          });
+      });
+   });
+
+   describe('builtin actions', () => {
+      describe('reset', () => {
          it('should return the correct next state', () => {
             const nextState = reducer(INITIAL_STATE, { type: 'FETCH_SOMETHING' });
             expect(nextState).toStrictEqual({ foo: 10, bar: false });
+         });
+      });
+      describe('setters', () => {
+         it('should return the correct next state for set foo', () => {
+            const nextState = reducer(INITIAL_STATE, { type: 'SET_SOME_FOO', foo: 99 });
+            expect(nextState).toStrictEqual({ foo: 99, bar: false });
+         });
+         it('should return the correct next state for set bar', () => {
+            const nextState = reducer(INITIAL_STATE, { type: 'SET_SOME_BAR', bar: true });
+            expect(nextState).toStrictEqual({ foo: 5, bar: true });
+         });
+         it('should throw an error if not passed with correct state key', () => {
+            expect(() => reducer(INITIAL_STATE, { type: 'SET_SOME_FOO' })).toThrow({
+               message:
+                  'reducer [some] passing with action [SET_SOME_FOO] should be passed with foo',
+            });
+         });
+         it('should throw an error if not passed with correct state key', () => {
+            expect(() => reducer(INITIAL_STATE, { type: 'SET_SOME_BAR' })).toThrow({
+               message:
+                  'reducer [some] passing with action [SET_SOME_BAR] should be passed with bar',
+            });
          });
       });
    });

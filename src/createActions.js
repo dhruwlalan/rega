@@ -1,4 +1,4 @@
-import { R, camelCaseToSnakeCase } from './utils';
+import { R, camelCaseToSnakeCase, capitalize } from './utils';
 
 const checkArguments = (name, initialState, actions) => {
    if (R.isNil(name)) throw new Error('name is required');
@@ -107,6 +107,22 @@ export const createActions = (name, initialState, actions) => {
    actionCreators.reset = () => ({
       type: `RESET_${camelCaseToSnakeCase(name)}`,
    });
+
+   R.forEachObjIndexed((_, key) => {
+      actionCreators[`set${capitalize(key)}`] = (...args) => {
+         if (args.length === 0) {
+            throw new Error(`action [${name}] expects a single argument, but passed none!`);
+         }
+         if (args.length !== 1) {
+            throw new Error(`action [${name}] expects only a single argument, but passed more!`);
+         }
+         const actionObject = {
+            type: `SET_${camelCaseToSnakeCase(name)}_${camelCaseToSnakeCase(key)}`,
+         };
+         actionObject[key] = args[0];
+         return actionObject;
+      };
+   })(initialState);
 
    return actionCreators;
 };
