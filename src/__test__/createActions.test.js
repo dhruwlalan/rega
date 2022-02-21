@@ -27,7 +27,7 @@ describe('createActions', () => {
    });
 
    const name = 'something';
-   const initialState = { foo: 'FOO' };
+   const initialState = { foo: 'FOO', bar: true, boo: [] };
    const actions = createActions(name, initialState, {
       fetchSomething: { arguments: [] },
       fetchSomethingDone: { arguments: ['foo', 'bar'] },
@@ -57,6 +57,35 @@ describe('createActions', () => {
       });
       it('should return the correct reset acion object', () => {
          expect(actions.reset()).toStrictEqual({ type: 'RESET_SOMETHING' });
+      });
+   });
+
+   describe('checking the set state actions', () => {
+      const keys = R.keys(actions);
+      it('should contain the set actions for initial state keys', () => {
+         expect(keys.includes('setFoo')).toBe(true);
+         expect(keys.includes('setBar')).toBe(true);
+         expect(keys.includes('setBoo')).toBe(true);
+      });
+      it('should have the correct set action value', () => {
+         expect(typeof actions.setFoo).toBe('function');
+         expect(typeof actions.setBar).toBe('function');
+         expect(typeof actions.setBoo).toBe('function');
+      });
+      it('should return the correct reset acion object', () => {
+         expect(actions.setFoo(5)).toStrictEqual({ type: 'SET_SOMETHING_FOO', foo: 5 });
+         expect(actions.setBar(false)).toStrictEqual({ type: 'SET_SOMETHING_BAR', bar: false });
+         expect(actions.setBoo(['hii'])).toStrictEqual({ type: 'SET_SOMETHING_BOO', boo: ['hii'] });
+      });
+      it('should throw an error if passed no arguments', () => {
+         expect(() => actions.setFoo()).toThrow({
+            message: 'action [something] expects a single argument, but passed none!',
+         });
+      });
+      it('should throw an error if passed more than one arguments', () => {
+         expect(() => actions.setFoo(5, 3)).toThrow({
+            message: 'action [something] expects only a single argument, but passed more!',
+         });
       });
    });
 
