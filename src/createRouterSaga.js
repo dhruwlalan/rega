@@ -22,7 +22,9 @@ export const createRouterSaga = (routerConfig, logAction) => {
       return Promise.resolve();
    }
 
-   return function* () {
-      yield takeLatest('@@router/LOCATION_CHANGE', navigationLoader);
-   };
+   return [
+      function* () {
+         yield takeLatest('@@router/LOCATION_CHANGE', navigationLoader);
+      },
+   ];
 };
