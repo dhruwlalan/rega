@@ -29,6 +29,21 @@ export const snakeCaseToCamelCase = pipe(
 
 export const capitalize = (s) => s && s[0].toUpperCase() + s.slice(1);
 
+export function matchRoute(expectedPattern, actualPath) {
+   let match = true;
+   const splitExpectedPattern = expectedPattern.split('/');
+   const splitActualPath = actualPath.split('/');
+   if (splitExpectedPattern.length !== splitActualPath.length) {
+      return false;
+   }
+   for (let i = 0; i < splitExpectedPattern.length; i += 1) {
+      if (!splitExpectedPattern[i].includes(':')) {
+         match = match && splitExpectedPattern[i] === splitActualPath[i];
+      }
+   }
+   return match;
+}
+
 export const R = {
    isNil,
    isEmpty,

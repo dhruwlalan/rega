@@ -30,3 +30,5 @@ export const rega = ({ name, initialState, actions }) => {
       [`${reducerName}Saga`]: createSaga(actions),
    };
 };
+
+export { createRouterSaga } from './createRouterSaga';
