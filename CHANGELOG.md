@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/dhruwlalan/rega/compare/v1.4.0...v1.4.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* **rega:** export createRouterSaga ([20a5e02](https://github.com/dhruwlalan/rega/commit/20a5e02b958ab2f904b785734cf6f9e607761180))
+
 # [1.4.0](https://github.com/dhruwlalan/rega/compare/v1.3.0...v1.4.0) (2022-02-22)
 
 
