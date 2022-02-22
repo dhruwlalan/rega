@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/dhruwlalan/rega/compare/v1.4.1...v1.4.2) (2022-02-22)
+
+
+### Bug Fixes
+
+* **saga:** return routerSaga as an array ([068a180](https://github.com/dhruwlalan/rega/commit/068a1802dcff21d0a152ccb7507805a441fefee8))
+
 ## [1.4.1](https://github.com/dhruwlalan/rega/compare/v1.4.0...v1.4.1) (2022-02-22)
 
 
