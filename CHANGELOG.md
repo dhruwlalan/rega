@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.4.0](https://github.com/dhruwlalan/rega/compare/v1.3.0...v1.4.0) (2022-02-22)
+
+
+### Features
+
+* **saga:** add built-in router saga handler ([ae4d1d0](https://github.com/dhruwlalan/rega/commit/ae4d1d0297b5c407ecd27cc4ec4b68f7acae6ec6))
+
 # [1.3.0](https://github.com/dhruwlalan/rega/compare/v1.2.2...v1.3.0) (2022-02-21)
 
 
