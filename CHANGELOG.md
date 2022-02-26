@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/dhruwlalan/rega/compare/v1.5.0...v1.5.1) (2022-02-26)
+
+
+### Bug Fixes
+
+* include types ([c685af0](https://github.com/dhruwlalan/rega/commit/c685af0567992b52aae9b1f8fdbd0d6a6885dfbb))
+
 # [1.5.0](https://github.com/dhruwlalan/rega/compare/v1.4.2...v1.5.0) (2022-02-26)
 
 ## [1.4.2](https://github.com/dhruwlalan/rega/compare/v1.4.1...v1.4.2) (2022-02-22)
