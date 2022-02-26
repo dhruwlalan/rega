@@ -8,7 +8,8 @@
    "bugs": "https://github.com/dhruwlalan/rega/issues",
    "main": "./dist/rega.js",
    "files": [
-      "dist"
+      "dist",
+      "index.d.ts"
    ],
    "scripts": {
       "test": "jest",
