@@ -1,7 +1,7 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, fork } from 'redux-saga/effects';
 import { R, camelCaseToSnakeCase } from './utils';
 
-export const createSaga = (actions) => {
+export const createSagas = (actions) => {
    if (R.isNil(actions)) throw new Error('actions object cannot be empty');
    if (R.isEmpty(actions)) throw new Error('actions object cannot be empty');
    if (!R.is(Object, actions)) throw new Error('actions must be a valid object');
@@ -21,5 +21,7 @@ export const createSaga = (actions) => {
          );
       }
    })(actions);
-   return sagas;
+   const sagasList = sagas.map(fork);
+
+   return sagasList;
 };

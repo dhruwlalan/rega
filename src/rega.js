@@ -3,7 +3,7 @@ import { createSelectors } from './createSelectors';
 import { createTypes } from './createTypes';
 import { createActions } from './createActions';
 import { createReducer } from './createReducer';
-import { createSaga } from './createSaga';
+import { createSagas } from './createSagas';
 import { R, capitalize } from './utils';
 
 export const rega = ({ name, initialState, actions }) => {
@@ -27,7 +27,7 @@ export const rega = ({ name, initialState, actions }) => {
       [`${reducerName}Selectors`]: createSelectors(INITIAL_STATE, name),
       [`${reducerName}Actions`]: createActions(name, INITIAL_STATE, actions),
       [`${reducerName}Reducer`]: createReducer(INITIAL_STATE, actions, name),
-      [`${reducerName}Saga`]: createSaga(actions),
+      [`${reducerName}Sagas`]: createSagas(actions),
    };
 };
 

@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, fork } from 'redux-saga/effects';
 import { R, matchRoute } from './utils';
 
 export const createRouterSaga = (routerConfig, logAction) => {
@@ -22,9 +22,13 @@ export const createRouterSaga = (routerConfig, logAction) => {
       return Promise.resolve();
    }
 
-   return [
+   const routerSaga = [
       function* () {
          yield takeLatest('@@router/LOCATION_CHANGE', navigationLoader);
       },
    ];
+
+   const routerSagas = routerSaga.map(fork);
+
+   return routerSagas;
 };

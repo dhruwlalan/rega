@@ -42,7 +42,7 @@ describe('rega', () => {
       });
    });
 
-   const { SomeSelectors, SomeTypes, SomeActions, SomeReducer, SomeSaga } = rega({
+   const { SomeSelectors, SomeTypes, SomeActions, SomeReducer, SomeSagas } = rega({
       name: 'some',
       initialState: {
          something: null,
@@ -303,17 +303,17 @@ describe('rega', () => {
       });
    });
 
-   describe('checking saga', () => {
+   describe('checking sagas', () => {
       it('should contain the exact no of saga functions', () => {
-         expect(SomeSaga.length).toBe(1);
+         expect(SomeSagas.length).toBe(1);
       });
 
       it('should create the saga functions of all the sagas present in the action object', () => {
-         expect(typeof SomeSaga[0]).toBe('function');
+         expect(typeof SomeSagas[0].payload.fn).toBe('function');
       });
 
       it('should create the saga functions with correct names of all the sagas present in the action object', () => {
-         expect(SomeSaga[0].name).toBe('fetchSomethingWatcher');
+         expect(SomeSagas[0].payload.fn.name).toBe('fetchSomethingWatcher');
       });
    });
 });
