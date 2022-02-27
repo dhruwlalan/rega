@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.6.0](https://github.com/dhruwlalan/rega/compare/v1.5.1...v1.6.0) (2022-02-27)
+
+
+### Features
+
+* return already forked sagas ([ecc84ed](https://github.com/dhruwlalan/rega/commit/ecc84ed687676d7ca823938e74d1fe4a146de7e6))
+
 ## [1.5.1](https://github.com/dhruwlalan/rega/compare/v1.5.0...v1.5.1) (2022-02-26)
 
 
