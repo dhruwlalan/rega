@@ -32,3 +32,4 @@ export const rega = ({ name, initialState, actions }) => {
 };
 
 export { createRouterSaga } from './createRouterSaga';
+export { createSyncedActions } from './createSyncedActions';
