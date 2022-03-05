@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.8.0](https://github.com/dhruwlalan/rega/compare/v1.7.0...v1.8.0) (2022-03-05)
+
+
+### Features
+
+* create synced actions ([bb1c91d](https://github.com/dhruwlalan/rega/commit/bb1c91d2bd64a1e94c5a80c8ed49d97e69f50899))
+
 # [1.7.0](https://github.com/dhruwlalan/rega/compare/v1.6.0...v1.7.0) (2022-03-05)
 
 
