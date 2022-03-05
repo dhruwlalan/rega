@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.7.0](https://github.com/dhruwlalan/rega/compare/v1.6.0...v1.7.0) (2022-03-05)
+
+
+### Features
+
+* add beforeEach & afterEach hooks into router saga ([67ccc52](https://github.com/dhruwlalan/rega/commit/67ccc5211ff70846bfb1806becd1fdc45b14d887))
+
 # [1.6.0](https://github.com/dhruwlalan/rega/compare/v1.5.1...v1.6.0) (2022-02-27)
 
 
