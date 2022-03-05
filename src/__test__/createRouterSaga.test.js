@@ -14,8 +14,12 @@ describe('createActions', () => {
       });
       describe('when passed valid arguments', () => {
          it('should not throw an error', () => {
-            expect(() => createRouterSaga({ '/dashboard': () => null })).not.toThrow();
-            expect(() => createRouterSaga({ '/dashboard': () => null }, true)).not.toThrow();
+            expect(() =>
+               createRouterSaga({ matchRoutes: { '/dashboard': () => null } }),
+            ).not.toThrow();
+            expect(() =>
+               createRouterSaga({ matchRoutes: { '/dashboard': () => null } }, true),
+            ).not.toThrow();
          });
       });
    });

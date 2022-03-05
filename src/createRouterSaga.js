@@ -1,23 +1,29 @@
 import { takeLatest, fork } from 'redux-saga/effects';
-import { R, matchRoute } from './utils';
+import { R, matchRoute, getParams } from './utils';
 
-export const createRouterSaga = (routerConfig, logAction) => {
-   if (R.isNil(routerConfig)) throw new Error('router sagas cannot be empty');
-   if (R.isEmpty(routerConfig)) throw new Error('router sagas cannot be empty');
-   if (!R.is(Object, routerConfig)) throw new Error('router sagas must be a valid object');
-   if (logAction && !R.is(Boolean, logAction)) {
-      throw new Error('logAction should be a valid boolean');
-   }
+export const createRouterSaga = ({ beforeEach, matchRoutes, afterEach }) => {
+   if (R.isNil(matchRoutes)) throw new Error('router sagas cannot be empty');
+   if (R.isEmpty(matchRoutes)) throw new Error('router sagas cannot be empty');
+   if (!R.is(Object, matchRoutes)) throw new Error('router sagas must be a valid object');
 
-   const routes = R.keys(routerConfig);
+   const routes = R.keys(matchRoutes);
 
    function* navigationLoader(action) {
-      if (logAction) console.dir(action);
-
       const currentRoute = routes.find((route) => {
          return matchRoute(route, action.payload.location.pathname);
       });
-      if (currentRoute) yield* routerConfig[currentRoute](action);
+
+      if (currentRoute) {
+         const location = action.payload.location;
+         const { queryParams, routeParams } = getParams(location);
+         try {
+            yield beforeEach({ action, queryParams, routeParams });
+            yield* matchRoutes[currentRoute]({ action, queryParams, routeParams });
+            yield afterEach({ action, queryParams, routeParams });
+         } catch (error) {
+            yield afterEach({ action, queryParams, routeParams, error });
+         }
+      }
 
       return Promise.resolve();
    }

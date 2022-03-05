@@ -1,3 +1,5 @@
+import qs from 'qs';
+import Route from 'route-parser';
 import {
    isNil,
    isEmpty,
@@ -42,6 +44,14 @@ export function matchRoute(expectedPattern, actualPath) {
       }
    }
    return match;
+}
+
+export function getParams(location) {
+   const options = { ignoreQueryPrefix: true };
+   const queryParams = qs.parse(location.search, options);
+   const route = new Route(location.pathname);
+   const routeParams = route.match(location.pathname);
+   return { queryParams, routeParams };
 }
 
 export const R = {
