@@ -4,7 +4,7 @@ import { createTypes } from './createTypes';
 import { createActions } from './createActions';
 import { createReducer } from './createReducer';
 import { createSagas } from './createSagas';
-import { R, capitalize } from './utils';
+import { R } from './utils';
 
 export const rega = ({ name, initialState, actions }) => {
    if (R.isNil(name)) throw new Error('name is required');
@@ -20,14 +20,13 @@ export const rega = ({ name, initialState, actions }) => {
    if (!R.is(Object, actions)) throw new Error('actions must be a valid object');
 
    const INITIAL_STATE = Immutable(initialState);
-   const reducerName = capitalize(name);
 
    return {
-      [`${reducerName}Types`]: createTypes(actions),
-      [`${reducerName}Selectors`]: createSelectors(INITIAL_STATE, name),
-      [`${reducerName}Actions`]: createActions(name, INITIAL_STATE, actions),
-      [`${reducerName}Reducer`]: createReducer(INITIAL_STATE, actions, name),
-      [`${reducerName}Sagas`]: createSagas(actions),
+      types: createTypes(actions),
+      selectors: createSelectors(INITIAL_STATE, name),
+      actions: createActions(name, INITIAL_STATE, actions),
+      reducer: createReducer(INITIAL_STATE, actions, name),
+      sagas: createSagas(actions),
    };
 };
 

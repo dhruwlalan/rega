@@ -42,7 +42,13 @@ describe('rega', () => {
       });
    });
 
-   const { SomeSelectors, SomeTypes, SomeActions, SomeReducer, SomeSagas } = rega({
+   const {
+      selectors: SomeSelectors,
+      types: SomeTypes,
+      actions: SomeActions,
+      reducer: SomeReducer,
+      sagas: SomeSagas,
+   } = rega({
       name: 'some',
       initialState: {
          something: null,
