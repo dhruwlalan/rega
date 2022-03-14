@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/dhruwlalan/rega/compare/v1.8.0...v1.8.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* revert named exports ([98d4b86](https://github.com/dhruwlalan/rega/commit/98d4b861a402906aab6c3d123a1e55f659642ae6))
+
 # [1.8.0](https://github.com/dhruwlalan/rega/compare/v1.7.0...v1.8.0) (2022-03-05)
 
 
