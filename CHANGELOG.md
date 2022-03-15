@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/dhruwlalan/rega/compare/v1.8.1...v1.8.2) (2022-03-15)
+
+
+### Bug Fixes
+
+* make both named and generic exports ([9d91911](https://github.com/dhruwlalan/rega/commit/9d91911cfa3878ebf4c6a83ccbaeaa2dbef1f7b9))
+
 ## [1.8.1](https://github.com/dhruwlalan/rega/compare/v1.8.0...v1.8.1) (2022-03-14)
 
 
