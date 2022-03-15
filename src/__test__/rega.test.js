@@ -42,13 +42,7 @@ describe('rega', () => {
       });
    });
 
-   const {
-      selectors: SomeSelectors,
-      types: SomeTypes,
-      actions: SomeActions,
-      reducer: SomeReducer,
-      sagas: SomeSagas,
-   } = rega({
+   const { SomeRega } = rega({
       name: 'some',
       initialState: {
          something: null,
@@ -75,10 +69,15 @@ describe('rega', () => {
          },
       },
    });
-   const SomeSelectorsKeys = R.keys(SomeSelectors);
-   const SomeTypesKeys = R.keys(SomeTypes);
-   const SomeTypesValues = R.values(SomeTypes);
-   const SomeActionsKeys = R.keys(SomeActions);
+   const SomeSelectorsKeys = R.keys(SomeRega.selectors);
+   const SomeTypesKeys = R.keys(SomeRega.types);
+   const SomeTypesValues = R.values(SomeRega.types);
+   const SomeActionsKeys = R.keys(SomeRega.actions);
+   const SomeSelectors = SomeRega.selectors;
+   const SomeActions = SomeRega.actions;
+   const SomeReducer = SomeRega.reducer;
+   const SomeSagas = SomeRega.sagas;
+
    const InitialState = Immutable({
       something: null,
       isFetching: false,
