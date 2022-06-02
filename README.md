@@ -3,13 +3,13 @@
 The default way of writing redux along with sagas includes too much of the boilerplate code making it very hard to maintain for large apps. rega is a combined wrapper for your redux app using sagas making it easy to work with & maintain for large apps. It is highly based upon the modular duck pattern.
 
 # Features
- 
+
  - no switch statements or destructuring of states.
  - simple reducer function to update the state.
  - simple actions object to maintain all the actions of a reducer.
  - simple hook for saga to attach it directly to an action.
  - clean readable code with less files.
- 
+
 # Usage
 
 Lets take `foo` as a piece of state for which you want to write your reducer & saga.

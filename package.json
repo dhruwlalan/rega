@@ -18,6 +18,20 @@
       "prepublishOnly": "npm run build",
       "semantic-release": "semantic-release"
    },
+   "publishConfig": {
+      "access": "public"
+   },
+   "release": {
+      "extends": "@dhruwlalan/semantic-release-config"
+   },
+   "eslintConfig": {
+      "extends": [
+         "@dhruwlalan"
+      ],
+      "env": {
+         "jest": true
+      }
+   },
    "dependencies": {
       "qs": "^6.10.3",
       "ramda": "^0.27.2",
@@ -42,33 +56,5 @@
    "peerDependencies": {
       "redux": "4.x",
       "redux-saga": "1.X"
-   },
-   "publishConfig": {
-      "access": "public"
-   },
-   "release": {
-      "extends": "@dhruwlalan/semantic-release-config"
-   },
-   "ava": {
-      "files": [
-         "test/**/*"
-      ],
-      "verbose": true,
-      "require": [
-         "@babel/register"
-      ],
-      "babel": {
-         "testOptions": {
-            "babelrc": false
-         }
-      }
-   },
-   "eslintConfig": {
-      "extends": [
-         "@dhruwlalan"
-      ],
-      "env": {
-         "jest": true
-      }
    }
 }
