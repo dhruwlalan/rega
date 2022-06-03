@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '14'
       - name: Setup Package Managers
-        run: npm i -g pnpm only-package-manager
+        run: npm i -g pnpm @dhruwlalan/opm
       - name: Install Dependencies
         run: opm ci
       - name: Run Tests
